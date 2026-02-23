@@ -1,13 +1,13 @@
 
 
 
-async function fetchData(){
-    try{
+async function fetchData() {
+    try {
         const pokemonName = document.getElementById("pokemonName").value.toLowerCase();
 
         const respone = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`)
 
-        if (!respone.ok){
+        if (!respone.ok) {
             throw new Error("could not fetch data")
         }
         const data = await respone.json();
@@ -16,11 +16,36 @@ async function fetchData(){
 
         imgElement.src = pokemonSprite
         imgElement.style.display = "block"
-        const Type = data.types.map(t => t.type.name)
-        const pokemonType = document.getElementById("pokemonType")
-        pokemonType.text = Type 
+
+
+        try {
+            let type2
+            let type
+            let pokemonType
+            if (data.types[1].type.name) {
+                type2 = data.types[1].type.name
+                type = data.types[0].type.name
+                pokemonType = document.getElementById("pokemonType").innerText = type;
+                const pokemonType2 = document.getElementById("pokemonType2").innerText = type2;
+                console.log(type)
+                console.log(type2)
+            }
+            else{
+                type = data.types[0].type.name
+                pokemonType = document.getElementById("pokemonType").innerText = type;
+                type2 = ""
+                const pokemonType2 = document.getElementById("pokemonType2").innerText = type2;
+                console.log(type)
+            }
+
+        }
+        catch (error) {
+            return(error)
+        }
+
+
     }
-    catch(error){
+    catch (error) {
         console.error(error)
     }
 }
